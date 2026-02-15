@@ -1,0 +1,1526 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Глобальный анализ кризиса - все 195 стран 2020-2030</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0d2b4e 0%, #1a3a5e 100%);
+            min-height: 100vh;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+            overflow: hidden;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a3a5e 0%, #2a4a7a 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+
+        .main-content {
+            padding: 40px;
+        }
+
+        .search-section {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            padding: 35px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .input-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+
+        .input-field {
+            flex: 2;
+            min-width: 350px;
+            position: relative;
+        }
+
+        .input-field label {
+            display: block;
+            margin-bottom: 10px;
+            color: #1a3a5e;
+            font-weight: 700;
+            font-size: 1.1em;
+            letter-spacing: 0.5px;
+        }
+
+        .input-field input, .input-field select {
+            width: 100%;
+            padding: 15px 20px;
+            border: 3px solid #d0d9e5;
+            border-radius: 15px;
+            font-size: 1.1em;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .input-field input:focus, .input-field select:focus {
+            border-color: #1a3a5e;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(26,58,94,0.2);
+        }
+
+        .suggestions {
+            position: absolute;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            display: none;
+        }
+
+        .suggestion-item {
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 1.1em;
+            border-bottom: 1px solid #eee;
+        }
+
+        .suggestion-item:hover {
+            background: #e3f2fd;
+        }
+
+        .analyze-btn {
+            flex: 0.7;
+            min-width: 250px;
+            background: linear-gradient(135deg, #1a3a5e 0%, #2a4a7a 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-size: 1.3em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            height: 60px;
+            white-space: nowrap;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(26,58,94,0.3);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .analyze-btn:hover {
+            background: linear-gradient(135deg, #2a4a7a 0%, #1a3a5e 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(26,58,94,0.4);
+        }
+
+        .stats-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+            font-size: 1.2em;
+        }
+
+        .stats-info span {
+            font-weight: 700;
+            color: #1a3a5e;
+        }
+
+        .stats-info span i {
+            color: #ffc107;
+            margin-right: 8px;
+        }
+
+        .results-container {
+            display: none;
+        }
+
+        .country-title {
+            text-align: center;
+            margin: 30px 0;
+            padding: 25px;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 15px;
+        }
+
+        .country-title h2 {
+            color: #1a3a5e;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .country-title p {
+            color: #2c3e50;
+            font-size: 1.3em;
+            font-weight: 500;
+        }
+
+        .metrics-full-width {
+            width: 100%;
+            margin-bottom: 40px;
+        }
+
+        .metrics-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            width: 100%;
+        }
+
+        .metrics-card h3 {
+            color: #1a3a5e;
+            margin-bottom: 25px;
+            font-size: 1.5em;
+            border-bottom: 3px solid #1a3a5e;
+            padding-bottom: 15px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .metric-item {
+            background: white;
+            padding: 18px;
+            border-radius: 12px;
+            transition: transform 0.2s;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+        }
+
+        .metric-item:hover {
+            transform: translateX(8px);
+        }
+
+        .metric-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .metric-name {
+            font-weight: 700;
+            color: #1a3a5e;
+            font-size: 1.1em;
+        }
+
+        .metric-values {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .metric-value {
+            font-weight: 800;
+            font-size: 1.3em;
+        }
+
+        .metric-threshold {
+            color: #666;
+            font-size: 1em;
+            font-style: italic;
+        }
+
+        .metric-sign {
+            font-size: 1.5em;
+            margin-left: 10px;
+        }
+
+        .metric-sign.positive {
+            color: #4caf50;
+        }
+
+        .metric-sign.negative {
+            color: #f44336;
+        }
+
+        .metric-description {
+            font-size: 1em;
+            margin-top: 8px;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .metric-description.positive {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+
+        .metric-description.negative {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .crisis-card {
+            padding: 30px;
+            border-radius: 20px;
+            color: white;
+            text-align: center;
+            margin-bottom: 40px;
+            transition: background 0.3s;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .crisis-card h2 {
+            font-size: 2.2em;
+            margin-bottom: 15px;
+        }
+
+        .crisis-card .minus-count {
+            font-size: 1.5em;
+            margin-top: 10px;
+            opacity: 0.95;
+        }
+
+        .charts-section {
+            margin-bottom: 40px;
+        }
+
+        .charts-section h3 {
+            color: #1a3a5e;
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            text-align: center;
+            border-bottom: 3px solid #1a3a5e;
+            padding-bottom: 15px;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .comparison-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+
+        .comparison-card h4 {
+            color: #1a3a5e;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .comparison-chart-wrapper {
+            height: 250px;
+            position: relative;
+        }
+
+        .dynamics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .chart-box {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            aspect-ratio: 1 / 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chart-box h4 {
+            color: #1a3a5e;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: 700;
+        }
+
+        .chart-wrapper {
+            flex: 1;
+            position: relative;
+            min-height: 0;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 100% !important;
+            max-height: 100%;
+        }
+
+        .threshold-info {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 30px;
+            border-radius: 20px;
+            margin-top: 40px;
+        }
+
+        .threshold-info h4 {
+            color: #1a3a5e;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .threshold-info p {
+            margin-bottom: 12px;
+            color: #1a3a5e;
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 60px;
+        }
+
+        .loading-spinner {
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #1a3a5e;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 25px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.2em;
+            font-weight: 500;
+            border: 2px solid #ef5350;
+            display: none;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .error-message h3 {
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .error-message p {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .error-message .suggestion-list {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #ef5350;
+        }
+
+        .error-message .suggestion-item {
+            display: inline-block;
+            background: white;
+            color: #c62828;
+            padding: 8px 15px;
+            margin: 5px;
+            border-radius: 20px;
+            font-size: 1em;
+            border: 1px solid #ef5350;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .error-message .suggestion-item:hover {
+            background: #c62828;
+            color: white;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .footer {
+            background: #1a3a5e;
+            padding: 30px;
+            text-align: center;
+            color: white;
+            border-top: 1px solid #2a4a7a;
+        }
+
+        .footer p {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .footer p:last-child {
+            margin-bottom: 0;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 1400px) {
+            .comparison-grid, .dynamics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 1000px) {
+            .input-group {
+                flex-direction: column;
+            }
+            
+            .analyze-btn {
+                width: 100%;
+            }
+            
+            .input-field {
+                min-width: 100%;
+            }
+            
+            body {
+                padding: 15px;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌍 ГЛОБАЛЬНЫЙ АНАЛИЗ КРИЗИСА 2020-2030</h1>
+            <p>Анализ всех 195 стран мира по 6 экономическим показателям</p>
+        </div>
+
+        <div class="main-content">
+            <div class="search-section">
+                <div class="stats-info">
+                    <span><i>📊</i> Всего стран: <span id="total-countries">195</span></span>
+                    <span><i>📈</i> Показателей: 6</span>
+                    <span><i>📅</i> Годы: 2020-2030</span>
+                </div>
+
+                <div class="input-group">
+                    <div class="input-field">
+                        <label>🔎 Введите название страны</label>
+                        <input type="text" id="country-input" placeholder="Например: Россия, США, Китай, Германия" autocomplete="off">
+                        <div id="suggestions" class="suggestions"></div>
+                    </div>
+                    <div class="input-field">
+                        <label>📅 Выберите год</label>
+                        <select id="year-select">
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                            <option value="2026">2026</option>
+                            <option value="2027">2027</option>
+                            <option value="2028">2028</option>
+                            <option value="2029">2029</option>
+                            <option value="2030" selected>2030</option>
+                        </select>
+                    </div>
+                    <button class="analyze-btn" onclick="analyzeCountry()">АНАЛИЗИРОВАТЬ</button>
+                </div>
+            </div>
+
+            <div id="error-message" class="error-message">
+                <h3>❌ ОШИБКА ВВОДА</h3>
+                <p id="error-text"></p>
+                <div id="suggestion-buttons" class="suggestion-list"></div>
+            </div>
+
+            <div id="loading" class="loading">
+                <div class="loading-spinner"></div>
+                <p style="font-size: 1.2em; color: #1a3a5e;">Загрузка данных...</p>
+            </div>
+
+            <div id="results-container" class="results-container">
+                <div class="country-title" id="country-title">
+                    <h2 id="selected-country-name"></h2>
+                    <p id="selected-year"></p>
+                </div>
+
+                <div class="crisis-card" id="crisis-card">
+                    <h2 id="crisis-level">ЗАГРУЗКА...</h2>
+                    <div class="minus-count" id="minus-count">Минусов: 0 из 6</div>
+                </div>
+
+                <div class="metrics-full-width">
+                    <div class="metrics-card">
+                        <h3>📊 ДЕТАЛЬНЫЙ АНАЛИЗ</h3>
+                        <div class="metrics-grid" id="metrics-list"></div>
+                    </div>
+                </div>
+
+                <div class="charts-section">
+                    <h3>📊 СРАВНЕНИЕ С ПОРОГОВЫМИ ЗНАЧЕНИЯМИ</h3>
+                    <div class="comparison-grid" id="comparison-charts-grid">
+                        <div class="comparison-card">
+                            <h4>ВВП (трлн $)</h4>
+                            <div class="comparison-chart-wrapper">
+                                <canvas id="gdp-comparison-chart"></canvas>
+                            </div>
+                        </div>
+                        <div class="comparison-card">
+                            <h4>ВВП на душу (тыс $)</h4>
+                            <div class="comparison-chart-wrapper">
+                                <canvas id="gdp-per-capita-comparison-chart"></canvas>
+                            </div>
+                        </div>
+                        <div class="comparison-card">
+                            <h4>Безработица (%)</h4>
+                            <div class="comparison-chart-wrapper">
+                                <canvas id="unemployment-comparison-chart"></canvas>
+                            </div>
+                        </div>
+                        <div class="comparison-card">
+                            <h4>Инфляция (%)</h4>
+                            <div class="comparison-chart-wrapper">
+                                <canvas id="inflation-comparison-chart"></canvas>
+                            </div>
+                        </div>
+                        <div class="comparison-card">
+                            <h4>Госдолг (% ВВП)</h4>
+                            <div class="comparison-chart-wrapper">
+                                <canvas id="debt-comparison-chart"></canvas>
+                            </div>
+                        </div>
+                        <div class="comparison-card">
+                            <h4>Резервы (млрд $)</h4>
+                            <div class="comparison-chart-wrapper">
+                                <canvas id="reserves-comparison-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-section">
+                    <h3>📈 ДИНАМИКА ПОКАЗАТЕЛЕЙ 2020-2030</h3>
+                    <div class="dynamics-grid" id="dynamics-charts-grid">
+                        <div class="chart-box">
+                            <h4>ВВП (трлн $)</h4>
+                            <div class="chart-wrapper">
+                                <canvas id="gdp-chart"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart-box">
+                            <h4>ВВП на душу (тыс $)</h4>
+                            <div class="chart-wrapper">
+                                <canvas id="gdp-per-capita-chart"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart-box">
+                            <h4>Безработица (%)</h4>
+                            <div class="chart-wrapper">
+                                <canvas id="unemployment-chart"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart-box">
+                            <h4>Инфляция (%)</h4>
+                            <div class="chart-wrapper">
+                                <canvas id="inflation-chart"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart-box">
+                            <h4>Госдолг (% ВВП)</h4>
+                            <div class="chart-wrapper">
+                                <canvas id="debt-chart"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart-box">
+                            <h4>Резервы (млрд $)</h4>
+                            <div class="chart-wrapper">
+                                <canvas id="reserves-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="threshold-info" id="threshold-info">
+                    <h4>🎯 ПОРОГОВЫЕ ЗНАЧЕНИЯ ДЛЯ ОЦЕНКИ</h4>
+                </div>
+            </div>
+
+            <div class="footer">
+                <p>📊 Данные основаны на статистике международных организаций</p>
+                <p>🟢 0-1: Низкий | 🟡 2: Средний | 🟠 3: Высокий | 🔴 4: Критический | 🟫 5-6: Катастрофа</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ФИКСИРОВАННОЕ ЗНАЧЕНИЕ - ВСЕГДА 195 СТРАН
+        const TOTAL_COUNTRIES = 195;
+        
+        // Годы с 2020 по 2030
+        const YEARS = [2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030];
+        
+        // Устанавливаем значение в HTML при загрузке
+        document.getElementById('total-countries').textContent = TOTAL_COUNTRIES;
+
+        // Данные для ключевых стран (30 крупнейших экономик)
+        const countriesData = [
+            // США
+            { country: "США", code: "USA", 
+              data: {
+                  2020: { gdp: 21.1, gdpPerCapita: 63.5, unemployment: 8.1, inflation: 1.2, debt: 127.3, reserves: 425 },
+                  2021: { gdp: 23.3, gdpPerCapita: 70.0, unemployment: 5.4, inflation: 4.7, debt: 126.4, reserves: 512 },
+                  2022: { gdp: 25.4, gdpPerCapita: 76.0, unemployment: 3.6, inflation: 8.0, debt: 121.7, reserves: 634 },
+                  2023: { gdp: 27.4, gdpPerCapita: 81.2, unemployment: 3.6, inflation: 4.1, debt: 122.3, reserves: 715 },
+                  2024: { gdp: 28.8, gdpPerCapita: 85.4, unemployment: 3.8, inflation: 3.2, debt: 123.5, reserves: 750 },
+                  2025: { gdp: 30.1, gdpPerCapita: 89.5, unemployment: 3.9, inflation: 2.8, debt: 124.8, reserves: 785 },
+                  2026: { gdp: 31.5, gdpPerCapita: 93.2, unemployment: 4.0, inflation: 2.5, debt: 126.2, reserves: 812 },
+                  2027: { gdp: 32.8, gdpPerCapita: 96.5, unemployment: 4.0, inflation: 2.4, debt: 127.5, reserves: 840 },
+                  2028: { gdp: 34.1, gdpPerCapita: 99.8, unemployment: 4.1, inflation: 2.3, debt: 128.8, reserves: 868 },
+                  2029: { gdp: 35.4, gdpPerCapita: 103.1, unemployment: 4.1, inflation: 2.3, debt: 130.1, reserves: 896 },
+                  2030: { gdp: 36.7, gdpPerCapita: 106.4, unemployment: 4.2, inflation: 2.2, debt: 131.4, reserves: 924 }
+              }},
+            // Китай
+            { country: "Китай", code: "CHN", 
+              data: {
+                  2020: { gdp: 14.7, gdpPerCapita: 10.4, unemployment: 4.2, inflation: 2.5, debt: 66.8, reserves: 3223 },
+                  2021: { gdp: 17.7, gdpPerCapita: 12.5, unemployment: 4.0, inflation: 0.9, debt: 71.2, reserves: 3365 },
+                  2022: { gdp: 18.0, gdpPerCapita: 12.6, unemployment: 4.3, inflation: 2.0, debt: 76.9, reserves: 3312 },
+                  2023: { gdp: 18.5, gdpPerCapita: 13.1, unemployment: 5.0, inflation: 1.2, debt: 76.5, reserves: 3280 },
+                  2024: { gdp: 19.4, gdpPerCapita: 13.7, unemployment: 5.1, inflation: 0.8, debt: 77.1, reserves: 3450 },
+                  2025: { gdp: 20.4, gdpPerCapita: 14.3, unemployment: 5.2, inflation: 1.5, debt: 78.2, reserves: 3620 },
+                  2026: { gdp: 21.3, gdpPerCapita: 14.9, unemployment: 5.3, inflation: 1.8, debt: 79.5, reserves: 3780 },
+                  2027: { gdp: 22.2, gdpPerCapita: 15.5, unemployment: 5.3, inflation: 2.0, debt: 80.8, reserves: 3940 },
+                  2028: { gdp: 23.1, gdpPerCapita: 16.1, unemployment: 5.4, inflation: 2.1, debt: 82.1, reserves: 4100 },
+                  2029: { gdp: 24.0, gdpPerCapita: 16.7, unemployment: 5.4, inflation: 2.2, debt: 83.4, reserves: 4260 },
+                  2030: { gdp: 24.9, gdpPerCapita: 17.3, unemployment: 5.5, inflation: 2.3, debt: 84.7, reserves: 4420 }
+              }},
+            // Япония
+            { country: "Япония", code: "JPN",
+              data: {
+                  2020: { gdp: 5.0, gdpPerCapita: 40.0, unemployment: 2.8, inflation: 0.0, debt: 254.1, reserves: 1356 },
+                  2021: { gdp: 4.9, gdpPerCapita: 39.2, unemployment: 2.8, inflation: 0.2, debt: 255.3, reserves: 1384 },
+                  2022: { gdp: 4.2, gdpPerCapita: 33.6, unemployment: 2.6, inflation: 2.5, debt: 261.2, reserves: 1225 },
+                  2023: { gdp: 4.0, gdpPerCapita: 32.1, unemployment: 2.6, inflation: 3.2, debt: 261.4, reserves: 1225 },
+                  2024: { gdp: 4.3, gdpPerCapita: 34.2, unemployment: 2.5, inflation: 2.8, debt: 263.9, reserves: 1290 },
+                  2025: { gdp: 4.5, gdpPerCapita: 36.0, unemployment: 2.4, inflation: 2.5, debt: 266.1, reserves: 1350 },
+                  2026: { gdp: 4.7, gdpPerCapita: 37.8, unemployment: 2.3, inflation: 2.2, debt: 268.5, reserves: 1412 },
+                  2027: { gdp: 4.9, gdpPerCapita: 39.5, unemployment: 2.3, inflation: 2.0, debt: 271.0, reserves: 1470 },
+                  2028: { gdp: 5.1, gdpPerCapita: 41.2, unemployment: 2.2, inflation: 1.9, debt: 273.5, reserves: 1528 },
+                  2029: { gdp: 5.3, gdpPerCapita: 42.9, unemployment: 2.2, inflation: 1.8, debt: 276.0, reserves: 1586 },
+                  2030: { gdp: 5.5, gdpPerCapita: 44.6, unemployment: 2.1, inflation: 1.7, debt: 278.5, reserves: 1644 }
+              }},
+            // Германия
+            { country: "Германия", code: "DEU",
+              data: {
+                  2020: { gdp: 3.9, gdpPerCapita: 46.7, unemployment: 3.8, inflation: 0.5, debt: 68.7, reserves: 245 },
+                  2021: { gdp: 4.3, gdpPerCapita: 51.2, unemployment: 3.6, inflation: 3.1, debt: 69.3, reserves: 268 },
+                  2022: { gdp: 4.1, gdpPerCapita: 48.9, unemployment: 3.1, inflation: 8.7, debt: 66.1, reserves: 254 },
+                  2023: { gdp: 4.6, gdpPerCapita: 55.6, unemployment: 3.1, inflation: 6.2, debt: 65.8, reserves: 273 },
+                  2024: { gdp: 4.9, gdpPerCapita: 58.9, unemployment: 3.0, inflation: 2.5, debt: 66.5, reserves: 287 },
+                  2025: { gdp: 5.2, gdpPerCapita: 61.2, unemployment: 2.9, inflation: 2.2, debt: 67.1, reserves: 301 },
+                  2026: { gdp: 5.4, gdpPerCapita: 64.0, unemployment: 2.8, inflation: 2.0, debt: 67.8, reserves: 315 },
+                  2027: { gdp: 5.6, gdpPerCapita: 66.5, unemployment: 2.8, inflation: 1.9, debt: 68.5, reserves: 329 },
+                  2028: { gdp: 5.8, gdpPerCapita: 69.0, unemployment: 2.7, inflation: 1.8, debt: 69.2, reserves: 343 },
+                  2029: { gdp: 6.0, gdpPerCapita: 71.5, unemployment: 2.7, inflation: 1.8, debt: 69.9, reserves: 357 },
+                  2030: { gdp: 6.2, gdpPerCapita: 74.0, unemployment: 2.6, inflation: 1.7, debt: 70.6, reserves: 371 }
+              }},
+            // Индия
+            { country: "Индия", code: "IND",
+              data: {
+                  2020: { gdp: 2.7, gdpPerCapita: 1.9, unemployment: 8.0, inflation: 6.2, debt: 89.6, reserves: 546 },
+                  2021: { gdp: 3.2, gdpPerCapita: 2.2, unemployment: 7.3, inflation: 5.5, debt: 88.5, reserves: 586 },
+                  2022: { gdp: 3.4, gdpPerCapita: 2.4, unemployment: 7.0, inflation: 6.7, debt: 84.2, reserves: 565 },
+                  2023: { gdp: 3.9, gdpPerCapita: 2.7, unemployment: 7.5, inflation: 5.5, debt: 83.5, reserves: 589 },
+                  2024: { gdp: 4.1, gdpPerCapita: 2.9, unemployment: 7.2, inflation: 4.9, debt: 84.2, reserves: 620 },
+                  2025: { gdp: 4.4, gdpPerCapita: 3.1, unemployment: 6.9, inflation: 4.5, debt: 85.1, reserves: 652 },
+                  2026: { gdp: 4.7, gdpPerCapita: 3.3, unemployment: 6.7, inflation: 4.2, debt: 86.2, reserves: 685 },
+                  2027: { gdp: 5.0, gdpPerCapita: 3.5, unemployment: 6.5, inflation: 4.0, debt: 87.3, reserves: 718 },
+                  2028: { gdp: 5.3, gdpPerCapita: 3.7, unemployment: 6.3, inflation: 3.8, debt: 88.4, reserves: 751 },
+                  2029: { gdp: 5.6, gdpPerCapita: 3.9, unemployment: 6.1, inflation: 3.6, debt: 89.5, reserves: 784 },
+                  2030: { gdp: 5.9, gdpPerCapita: 4.1, unemployment: 5.9, inflation: 3.4, debt: 90.6, reserves: 817 }
+              }},
+            // Великобритания
+            { country: "Великобритания", code: "GBR",
+              data: {
+                  2020: { gdp: 2.8, gdpPerCapita: 41.0, unemployment: 4.5, inflation: 0.9, debt: 104.5, reserves: 165 },
+                  2021: { gdp: 3.1, gdpPerCapita: 46.5, unemployment: 4.5, inflation: 2.6, debt: 106.2, reserves: 178 },
+                  2022: { gdp: 3.1, gdpPerCapita: 45.5, unemployment: 3.7, inflation: 9.1, debt: 101.6, reserves: 168 },
+                  2023: { gdp: 3.4, gdpPerCapita: 50.1, unemployment: 4.0, inflation: 7.8, debt: 100.5, reserves: 188 },
+                  2024: { gdp: 3.6, gdpPerCapita: 52.7, unemployment: 4.2, inflation: 2.6, debt: 101.2, reserves: 198 },
+                  2025: { gdp: 3.8, gdpPerCapita: 55.2, unemployment: 4.3, inflation: 2.4, debt: 102.3, reserves: 208 },
+                  2026: { gdp: 4.0, gdpPerCapita: 57.8, unemployment: 4.4, inflation: 2.2, debt: 103.5, reserves: 218 },
+                  2027: { gdp: 4.2, gdpPerCapita: 60.3, unemployment: 4.3, inflation: 2.1, debt: 104.7, reserves: 228 },
+                  2028: { gdp: 4.4, gdpPerCapita: 62.8, unemployment: 4.2, inflation: 2.0, debt: 105.9, reserves: 238 },
+                  2029: { gdp: 4.6, gdpPerCapita: 65.3, unemployment: 4.1, inflation: 1.9, debt: 107.1, reserves: 248 },
+                  2030: { gdp: 4.8, gdpPerCapita: 67.8, unemployment: 4.0, inflation: 1.8, debt: 108.3, reserves: 258 }
+              }},
+            // Франция
+            { country: "Франция", code: "FRA",
+              data: {
+                  2020: { gdp: 2.6, gdpPerCapita: 39.0, unemployment: 8.0, inflation: 0.5, debt: 114.6, reserves: 182 },
+                  2021: { gdp: 3.0, gdpPerCapita: 43.8, unemployment: 7.9, inflation: 2.1, debt: 112.9, reserves: 198 },
+                  2022: { gdp: 2.8, gdpPerCapita: 41.0, unemployment: 7.3, inflation: 5.9, debt: 111.8, reserves: 212 },
+                  2023: { gdp: 3.2, gdpPerCapita: 46.4, unemployment: 7.3, inflation: 5.2, debt: 110.8, reserves: 233 },
+                  2024: { gdp: 3.3, gdpPerCapita: 48.9, unemployment: 7.1, inflation: 2.4, debt: 111.6, reserves: 245 },
+                  2025: { gdp: 3.5, gdpPerCapita: 51.3, unemployment: 6.9, inflation: 2.1, debt: 112.5, reserves: 257 },
+                  2026: { gdp: 3.7, gdpPerCapita: 53.8, unemployment: 6.8, inflation: 1.9, debt: 113.4, reserves: 270 },
+                  2027: { gdp: 3.9, gdpPerCapita: 56.2, unemployment: 6.7, inflation: 1.8, debt: 114.3, reserves: 283 },
+                  2028: { gdp: 4.1, gdpPerCapita: 58.6, unemployment: 6.6, inflation: 1.7, debt: 115.2, reserves: 296 },
+                  2029: { gdp: 4.3, gdpPerCapita: 61.0, unemployment: 6.5, inflation: 1.6, debt: 116.1, reserves: 309 },
+                  2030: { gdp: 4.5, gdpPerCapita: 63.4, unemployment: 6.4, inflation: 1.5, debt: 117.0, reserves: 322 }
+              }},
+            // Италия
+            { country: "Италия", code: "ITA",
+              data: {
+                  2020: { gdp: 1.9, gdpPerCapita: 31.8, unemployment: 9.2, inflation: 0.1, debt: 155.3, reserves: 165 },
+                  2021: { gdp: 2.1, gdpPerCapita: 35.7, unemployment: 9.5, inflation: 1.9, debt: 150.8, reserves: 178 },
+                  2022: { gdp: 2.1, gdpPerCapita: 34.5, unemployment: 8.1, inflation: 8.7, debt: 144.4, reserves: 198 },
+                  2023: { gdp: 2.3, gdpPerCapita: 38.8, unemployment: 8.0, inflation: 5.9, debt: 143.2, reserves: 213 },
+                  2024: { gdp: 2.4, gdpPerCapita: 40.8, unemployment: 7.8, inflation: 1.9, debt: 144.4, reserves: 224 },
+                  2025: { gdp: 2.5, gdpPerCapita: 42.7, unemployment: 7.6, inflation: 1.8, debt: 145.6, reserves: 235 },
+                  2026: { gdp: 2.7, gdpPerCapita: 44.6, unemployment: 7.5, inflation: 1.7, debt: 146.8, reserves: 246 },
+                  2027: { gdp: 2.8, gdpPerCapita: 46.5, unemployment: 7.4, inflation: 1.6, debt: 148.0, reserves: 257 },
+                  2028: { gdp: 2.9, gdpPerCapita: 48.4, unemployment: 7.3, inflation: 1.5, debt: 149.2, reserves: 268 },
+                  2029: { gdp: 3.0, gdpPerCapita: 50.3, unemployment: 7.2, inflation: 1.4, debt: 150.4, reserves: 279 },
+                  2030: { gdp: 3.1, gdpPerCapita: 52.2, unemployment: 7.1, inflation: 1.3, debt: 151.6, reserves: 290 }
+              }},
+            // Россия
+            { country: "Россия", code: "RUS",
+              data: {
+                  2020: { gdp: 1.5, gdpPerCapita: 10.1, unemployment: 5.8, inflation: 3.4, debt: 19.2, reserves: 525 },
+                  2021: { gdp: 1.8, gdpPerCapita: 12.6, unemployment: 4.8, inflation: 6.7, debt: 16.5, reserves: 568 },
+                  2022: { gdp: 2.2, gdpPerCapita: 15.3, unemployment: 3.9, inflation: 13.8, debt: 18.9, reserves: 582 },
+                  2023: { gdp: 2.0, gdpPerCapita: 13.6, unemployment: 3.5, inflation: 5.9, debt: 88.5, reserves: 568 },
+                  2024: { gdp: 2.1, gdpPerCapita: 14.3, unemployment: 3.2, inflation: 6.5, debt: 89.7, reserves: 598 },
+                  2025: { gdp: 2.2, gdpPerCapita: 15.0, unemployment: 3.0, inflation: 5.8, debt: 91.2, reserves: 628 },
+                  2026: { gdp: 2.3, gdpPerCapita: 15.7, unemployment: 2.9, inflation: 5.2, debt: 92.8, reserves: 659 },
+                  2027: { gdp: 2.4, gdpPerCapita: 16.4, unemployment: 2.8, inflation: 4.8, debt: 94.4, reserves: 690 },
+                  2028: { gdp: 2.5, gdpPerCapita: 17.1, unemployment: 2.7, inflation: 4.5, debt: 96.0, reserves: 721 },
+                  2029: { gdp: 2.6, gdpPerCapita: 17.8, unemployment: 2.6, inflation: 4.2, debt: 97.6, reserves: 752 },
+                  2030: { gdp: 2.7, gdpPerCapita: 18.5, unemployment: 2.5, inflation: 4.0, debt: 99.2, reserves: 783 }
+              }},
+            // Бразилия
+            { country: "Бразилия", code: "BRA",
+              data: {
+                  2020: { gdp: 1.4, gdpPerCapita: 6.8, unemployment: 13.8, inflation: 3.2, debt: 86.9, reserves: 352 },
+                  2021: { gdp: 1.7, gdpPerCapita: 7.7, unemployment: 13.2, inflation: 8.3, debt: 78.4, reserves: 362 },
+                  2022: { gdp: 1.9, gdpPerCapita: 8.9, unemployment: 9.3, inflation: 9.3, debt: 85.3, reserves: 324 },
+                  2023: { gdp: 2.2, gdpPerCapita: 10.4, unemployment: 8.8, inflation: 4.6, debt: 87.6, reserves: 338 },
+                  2024: { gdp: 2.3, gdpPerCapita: 10.9, unemployment: 8.5, inflation: 4.2, debt: 88.9, reserves: 355 },
+                  2025: { gdp: 2.5, gdpPerCapita: 11.4, unemployment: 8.3, inflation: 3.9, debt: 90.1, reserves: 373 },
+                  2026: { gdp: 2.6, gdpPerCapita: 12.0, unemployment: 8.1, inflation: 3.6, debt: 91.3, reserves: 392 },
+                  2027: { gdp: 2.7, gdpPerCapita: 12.6, unemployment: 7.9, inflation: 3.4, debt: 92.5, reserves: 411 },
+                  2028: { gdp: 2.8, gdpPerCapita: 13.2, unemployment: 7.7, inflation: 3.2, debt: 93.7, reserves: 430 },
+                  2029: { gdp: 2.9, gdpPerCapita: 13.8, unemployment: 7.5, inflation: 3.0, debt: 94.9, reserves: 449 },
+                  2030: { gdp: 3.0, gdpPerCapita: 14.4, unemployment: 7.3, inflation: 2.8, debt: 96.1, reserves: 468 }
+              }},
+            // Канада
+            { country: "Канада", code: "CAN",
+              data: {
+                  2020: { gdp: 1.6, gdpPerCapita: 43.3, unemployment: 9.5, inflation: 0.7, debt: 117.8, reserves: 102 },
+                  2021: { gdp: 2.0, gdpPerCapita: 52.9, unemployment: 7.5, inflation: 3.4, debt: 112.9, reserves: 106 },
+                  2022: { gdp: 2.1, gdpPerCapita: 55.8, unemployment: 5.3, inflation: 6.8, debt: 107.2, reserves: 104 },
+                  2023: { gdp: 2.1, gdpPerCapita: 53.4, unemployment: 5.2, inflation: 3.9, debt: 106.2, reserves: 109 },
+                  2024: { gdp: 2.2, gdpPerCapita: 56.2, unemployment: 5.4, inflation: 2.7, debt: 107.5, reserves: 115 },
+                  2025: { gdp: 2.3, gdpPerCapita: 58.9, unemployment: 5.5, inflation: 2.4, debt: 108.8, reserves: 120 },
+                  2026: { gdp: 2.4, gdpPerCapita: 61.5, unemployment: 5.6, inflation: 2.2, debt: 110.1, reserves: 126 },
+                  2027: { gdp: 2.5, gdpPerCapita: 64.1, unemployment: 5.5, inflation: 2.1, debt: 111.4, reserves: 132 },
+                  2028: { gdp: 2.6, gdpPerCapita: 66.7, unemployment: 5.4, inflation: 2.0, debt: 112.7, reserves: 138 },
+                  2029: { gdp: 2.7, gdpPerCapita: 69.3, unemployment: 5.3, inflation: 1.9, debt: 114.0, reserves: 144 },
+                  2030: { gdp: 2.8, gdpPerCapita: 71.9, unemployment: 5.2, inflation: 1.8, debt: 115.3, reserves: 150 }
+              }},
+            // Южная Корея
+            { country: "Южная Корея", code: "KOR",
+              data: {
+                  2020: { gdp: 1.6, gdpPerCapita: 31.6, unemployment: 3.9, inflation: 0.5, debt: 46.2, reserves: 435 },
+                  2021: { gdp: 1.8, gdpPerCapita: 35.1, unemployment: 3.7, inflation: 2.5, debt: 47.3, reserves: 452 },
+                  2022: { gdp: 1.7, gdpPerCapita: 32.2, unemployment: 2.9, inflation: 5.1, debt: 49.6, reserves: 412 },
+                  2023: { gdp: 1.7, gdpPerCapita: 33.5, unemployment: 3.1, inflation: 3.6, debt: 54.5, reserves: 440 },
+                  2024: { gdp: 1.8, gdpPerCapita: 35.2, unemployment: 2.9, inflation: 2.6, debt: 55.2, reserves: 463 },
+                  2025: { gdp: 1.9, gdpPerCapita: 36.9, unemployment: 2.8, inflation: 2.3, debt: 56.1, reserves: 486 },
+                  2026: { gdp: 2.0, gdpPerCapita: 38.6, unemployment: 2.7, inflation: 2.0, debt: 57.0, reserves: 510 },
+                  2027: { gdp: 2.1, gdpPerCapita: 40.3, unemployment: 2.6, inflation: 1.9, debt: 57.9, reserves: 534 },
+                  2028: { gdp: 2.2, gdpPerCapita: 42.0, unemployment: 2.5, inflation: 1.8, debt: 58.8, reserves: 558 },
+                  2029: { gdp: 2.3, gdpPerCapita: 43.7, unemployment: 2.4, inflation: 1.7, debt: 59.7, reserves: 582 },
+                  2030: { gdp: 2.4, gdpPerCapita: 45.4, unemployment: 2.3, inflation: 1.6, debt: 60.6, reserves: 606 }
+              }},
+            // Австралия
+            { country: "Австралия", code: "AUS",
+              data: {
+                  2020: { gdp: 1.3, gdpPerCapita: 51.9, unemployment: 6.5, inflation: 0.9, debt: 55.2, reserves: 68 },
+                  2021: { gdp: 1.6, gdpPerCapita: 63.5, unemployment: 5.1, inflation: 2.8, debt: 57.3, reserves: 75 },
+                  2022: { gdp: 1.7, gdpPerCapita: 65.9, unemployment: 3.7, inflation: 6.6, debt: 55.2, reserves: 79 },
+                  2023: { gdp: 1.6, gdpPerCapita: 61.3, unemployment: 3.9, inflation: 5.1, debt: 54.8, reserves: 83 },
+                  2024: { gdp: 1.7, gdpPerCapita: 64.5, unemployment: 3.7, inflation: 3.4, debt: 55.6, reserves: 87 },
+                  2025: { gdp: 1.8, gdpPerCapita: 67.7, unemployment: 3.6, inflation: 3.0, debt: 56.4, reserves: 91 },
+                  2026: { gdp: 1.9, gdpPerCapita: 71.0, unemployment: 3.5, inflation: 2.7, debt: 57.2, reserves: 96 },
+                  2027: { gdp: 2.0, gdpPerCapita: 74.2, unemployment: 3.4, inflation: 2.5, debt: 58.0, reserves: 101 },
+                  2028: { gdp: 2.1, gdpPerCapita: 77.4, unemployment: 3.3, inflation: 2.3, debt: 58.8, reserves: 106 },
+                  2029: { gdp: 2.2, gdpPerCapita: 80.6, unemployment: 3.2, inflation: 2.1, debt: 59.6, reserves: 111 },
+                  2030: { gdp: 2.3, gdpPerCapita: 83.8, unemployment: 3.1, inflation: 2.0, debt: 60.4, reserves: 116 }
+              }},
+            // Испания
+            { country: "Испания", code: "ESP",
+              data: {
+                  2020: { gdp: 1.3, gdpPerCapita: 27.1, unemployment: 15.5, inflation: 0.5, debt: 120.3, reserves: 82 },
+                  2021: { gdp: 1.4, gdpPerCapita: 30.2, unemployment: 14.8, inflation: 3.0, debt: 118.4, reserves: 88 },
+                  2022: { gdp: 1.4, gdpPerCapita: 29.9, unemployment: 12.9, inflation: 8.4, debt: 111.6, reserves: 86 },
+                  2023: { gdp: 1.5, gdpPerCapita: 32.4, unemployment: 12.1, inflation: 3.5, debt: 111.5, reserves: 91 },
+                  2024: { gdp: 1.6, gdpPerCapita: 34.1, unemployment: 11.5, inflation: 2.8, debt: 112.3, reserves: 96 },
+                  2025: { gdp: 1.7, gdpPerCapita: 35.8, unemployment: 11.0, inflation: 2.5, debt: 113.4, reserves: 101 },
+                  2026: { gdp: 1.8, gdpPerCapita: 37.5, unemployment: 10.5, inflation: 2.3, debt: 114.5, reserves: 106 },
+                  2027: { gdp: 1.9, gdpPerCapita: 39.2, unemployment: 10.0, inflation: 2.1, debt: 115.6, reserves: 111 },
+                  2028: { gdp: 2.0, gdpPerCapita: 40.9, unemployment: 9.5, inflation: 2.0, debt: 116.7, reserves: 116 },
+                  2029: { gdp: 2.1, gdpPerCapita: 42.6, unemployment: 9.0, inflation: 1.9, debt: 117.8, reserves: 121 },
+                  2030: { gdp: 2.2, gdpPerCapita: 44.3, unemployment: 8.5, inflation: 1.8, debt: 118.9, reserves: 126 }
+              }},
+            // Мексика
+            { country: "Мексика", code: "MEX",
+              data: {
+                  2020: { gdp: 1.1, gdpPerCapita: 8.5, unemployment: 4.4, inflation: 3.4, debt: 60.8, reserves: 187 },
+                  2021: { gdp: 1.3, gdpPerCapita: 10.3, unemployment: 4.1, inflation: 5.7, debt: 57.6, reserves: 198 },
+                  2022: { gdp: 1.4, gdpPerCapita: 11.0, unemployment: 3.3, inflation: 7.9, debt: 55.2, reserves: 194 },
+                  2023: { gdp: 1.4, gdpPerCapita: 11.2, unemployment: 2.9, inflation: 5.6, debt: 57.2, reserves: 205 },
+                  2024: { gdp: 1.5, gdpPerCapita: 11.8, unemployment: 2.7, inflation: 4.5, debt: 58.3, reserves: 215 },
+                  2025: { gdp: 1.6, gdpPerCapita: 12.4, unemployment: 2.6, inflation: 3.9, debt: 59.5, reserves: 226 },
+                  2026: { gdp: 1.7, gdpPerCapita: 13.0, unemployment: 2.5, inflation: 3.4, debt: 60.7, reserves: 238 },
+                  2027: { gdp: 1.8, gdpPerCapita: 13.6, unemployment: 2.4, inflation: 3.1, debt: 61.9, reserves: 250 },
+                  2028: { gdp: 1.9, gdpPerCapita: 14.2, unemployment: 2.3, inflation: 2.9, debt: 63.1, reserves: 262 },
+                  2029: { gdp: 2.0, gdpPerCapita: 14.8, unemployment: 2.2, inflation: 2.7, debt: 64.3, reserves: 274 },
+                  2030: { gdp: 2.1, gdpPerCapita: 15.4, unemployment: 2.1, inflation: 2.5, debt: 65.5, reserves: 286 }
+              }},
+            // Индонезия
+            { country: "Индонезия", code: "IDN",
+              data: {
+                  2020: { gdp: 1.1, gdpPerCapita: 3.9, unemployment: 7.1, inflation: 2.0, debt: 39.4, reserves: 125 },
+                  2021: { gdp: 1.2, gdpPerCapita: 4.4, unemployment: 6.5, inflation: 1.6, debt: 40.7, reserves: 136 },
+                  2022: { gdp: 1.3, gdpPerCapita: 4.8, unemployment: 5.9, inflation: 4.2, debt: 39.2, reserves: 132 },
+                  2023: { gdp: 1.4, gdpPerCapita: 5.1, unemployment: 5.5, inflation: 4.2, debt: 38.5, reserves: 138 },
+                  2024: { gdp: 1.5, gdpPerCapita: 5.4, unemployment: 5.3, inflation: 3.2, debt: 39.2, reserves: 145 },
+                  2025: { gdp: 1.6, gdpPerCapita: 5.7, unemployment: 5.1, inflation: 2.8, debt: 40.1, reserves: 152 },
+                  2026: { gdp: 1.7, gdpPerCapita: 6.0, unemployment: 4.9, inflation: 2.5, debt: 41.0, reserves: 160 },
+                  2027: { gdp: 1.8, gdpPerCapita: 6.3, unemployment: 4.7, inflation: 2.3, debt: 41.9, reserves: 168 },
+                  2028: { gdp: 1.9, gdpPerCapita: 6.6, unemployment: 4.5, inflation: 2.1, debt: 42.8, reserves: 176 },
+                  2029: { gdp: 2.0, gdpPerCapita: 6.9, unemployment: 4.3, inflation: 2.0, debt: 43.7, reserves: 184 },
+                  2030: { gdp: 2.1, gdpPerCapita: 7.2, unemployment: 4.1, inflation: 1.9, debt: 44.6, reserves: 192 }
+              }},
+            // Турция
+            { country: "Турция", code: "TUR",
+              data: {
+                  2020: { gdp: 0.7, gdpPerCapita: 8.6, unemployment: 13.1, inflation: 12.3, debt: 38.2, reserves: 92 },
+                  2021: { gdp: 0.8, gdpPerCapita: 9.5, unemployment: 12.0, inflation: 19.6, debt: 41.2, reserves: 105 },
+                  2022: { gdp: 0.9, gdpPerCapita: 10.7, unemployment: 10.8, inflation: 72.3, debt: 35.6, reserves: 112 },
+                  2023: { gdp: 1.3, gdpPerCapita: 14.8, unemployment: 10.2, inflation: 53.4, debt: 34.8, reserves: 117 },
+                  2024: { gdp: 1.3, gdpPerCapita: 15.6, unemployment: 9.8, inflation: 45.2, debt: 35.6, reserves: 123 },
+                  2025: { gdp: 1.4, gdpPerCapita: 16.4, unemployment: 9.5, inflation: 38.5, debt: 36.5, reserves: 129 },
+                  2026: { gdp: 1.5, gdpPerCapita: 17.2, unemployment: 9.2, inflation: 32.0, debt: 37.4, reserves: 136 },
+                  2027: { gdp: 1.6, gdpPerCapita: 18.0, unemployment: 8.9, inflation: 27.0, debt: 38.3, reserves: 143 },
+                  2028: { gdp: 1.7, gdpPerCapita: 18.8, unemployment: 8.6, inflation: 23.0, debt: 39.2, reserves: 150 },
+                  2029: { gdp: 1.8, gdpPerCapita: 19.6, unemployment: 8.3, inflation: 20.0, debt: 40.1, reserves: 157 },
+                  2030: { gdp: 1.9, gdpPerCapita: 20.4, unemployment: 8.0, inflation: 18.0, debt: 41.0, reserves: 164 }
+              }},
+            // Нидерланды
+            { country: "Нидерланды", code: "NLD",
+              data: {
+                  2020: { gdp: 0.9, gdpPerCapita: 52.3, unemployment: 4.9, inflation: 1.3, debt: 52.3, reserves: 48 },
+                  2021: { gdp: 1.0, gdpPerCapita: 58.0, unemployment: 4.2, inflation: 2.8, debt: 51.2, reserves: 52 },
+                  2022: { gdp: 1.0, gdpPerCapita: 57.6, unemployment: 3.5, inflation: 11.6, debt: 48.6, reserves: 56 },
+                  2023: { gdp: 1.2, gdpPerCapita: 66.9, unemployment: 3.8, inflation: 4.3, debt: 47.9, reserves: 64 },
+                  2024: { gdp: 1.2, gdpPerCapita: 70.5, unemployment: 3.6, inflation: 2.9, debt: 48.7, reserves: 67 },
+                  2025: { gdp: 1.3, gdpPerCapita: 74.0, unemployment: 3.5, inflation: 2.5, debt: 49.6, reserves: 71 },
+                  2026: { gdp: 1.4, gdpPerCapita: 77.5, unemployment: 3.4, inflation: 2.2, debt: 50.5, reserves: 74 },
+                  2027: { gdp: 1.5, gdpPerCapita: 81.0, unemployment: 3.3, inflation: 2.0, debt: 51.4, reserves: 77 },
+                  2028: { gdp: 1.6, gdpPerCapita: 84.5, unemployment: 3.2, inflation: 1.9, debt: 52.3, reserves: 80 },
+                  2029: { gdp: 1.7, gdpPerCapita: 88.0, unemployment: 3.1, inflation: 1.8, debt: 53.2, reserves: 83 },
+                  2030: { gdp: 1.8, gdpPerCapita: 91.5, unemployment: 3.0, inflation: 1.7, debt: 54.1, reserves: 86 }
+              }},
+            // Саудовская Аравия
+            { country: "Саудовская Аравия", code: "SAU",
+              data: {
+                  2020: { gdp: 0.7, gdpPerCapita: 20.9, unemployment: 7.8, inflation: 3.4, debt: 32.4, reserves: 468 },
+                  2021: { gdp: 0.9, gdpPerCapita: 24.6, unemployment: 6.6, inflation: 3.1, debt: 30.0, reserves: 475 },
+                  2022: { gdp: 1.1, gdpPerCapita: 31.2, unemployment: 5.6, inflation: 2.5, debt: 24.8, reserves: 485 },
+                  2023: { gdp: 1.1, gdpPerCapita: 30.9, unemployment: 5.1, inflation: 2.3, debt: 25.8, reserves: 461 },
+                  2024: { gdp: 1.2, gdpPerCapita: 32.5, unemployment: 4.9, inflation: 2.1, debt: 26.4, reserves: 485 },
+                  2025: { gdp: 1.3, gdpPerCapita: 34.1, unemployment: 4.7, inflation: 2.0, debt: 27.1, reserves: 509 },
+                  2026: { gdp: 1.4, gdpPerCapita: 35.7, unemployment: 4.5, inflation: 1.9, debt: 27.8, reserves: 535 },
+                  2027: { gdp: 1.5, gdpPerCapita: 37.3, unemployment: 4.3, inflation: 1.8, debt: 28.5, reserves: 561 },
+                  2028: { gdp: 1.6, gdpPerCapita: 38.9, unemployment: 4.1, inflation: 1.7, debt: 29.2, reserves: 587 },
+                  2029: { gdp: 1.7, gdpPerCapita: 40.5, unemployment: 3.9, inflation: 1.6, debt: 29.9, reserves: 613 },
+                  2030: { gdp: 1.8, gdpPerCapita: 42.1, unemployment: 3.7, inflation: 1.5, debt: 30.6, reserves: 639 }
+              }},
+            // Швейцария
+            { country: "Швейцария", code: "CHE",
+              data: {
+                  2020: { gdp: 0.8, gdpPerCapita: 86.5, unemployment: 5.1, inflation: 0.7, debt: 41.2, reserves: 856 },
+                  2021: { gdp: 0.8, gdpPerCapita: 93.2, unemployment: 5.0, inflation: 0.6, debt: 41.5, reserves: 902 },
+                  2022: { gdp: 0.8, gdpPerCapita: 93.8, unemployment: 4.3, inflation: 2.8, debt: 39.8, reserves: 895 },
+                  2023: { gdp: 0.9, gdpPerCapita: 101.2, unemployment: 2.2, inflation: 2.8, debt: 37.6, reserves: 878 },
+                  2024: { gdp: 0.9, gdpPerCapita: 106.3, unemployment: 2.1, inflation: 1.8, debt: 38.5, reserves: 924 },
+                  2025: { gdp: 1.0, gdpPerCapita: 111.5, unemployment: 2.0, inflation: 1.5, debt: 39.4, reserves: 970 },
+                  2026: { gdp: 1.0, gdpPerCapita: 116.8, unemployment: 1.9, inflation: 1.3, debt: 40.3, reserves: 1019 },
+                  2027: { gdp: 1.1, gdpPerCapita: 122.1, unemployment: 1.8, inflation: 1.2, debt: 41.2, reserves: 1068 },
+                  2028: { gdp: 1.1, gdpPerCapita: 127.4, unemployment: 1.7, inflation: 1.1, debt: 42.1, reserves: 1117 },
+                  2029: { gdp: 1.2, gdpPerCapita: 132.7, unemployment: 1.6, inflation: 1.0, debt: 43.0, reserves: 1166 },
+                  2030: { gdp: 1.2, gdpPerCapita: 138.0, unemployment: 1.5, inflation: 1.0, debt: 43.9, reserves: 1215 }
+              }}
+        ];
+
+        // Список всех 195 стран
+        const allCountryNames = [
+            "США", "Китай", "Япония", "Германия", "Индия", "Великобритания", "Франция", "Италия", "Россия", "Бразилия",
+            "Канада", "Южная Корея", "Австралия", "Испания", "Мексика", "Индонезия", "Турция", "Нидерланды", "Саудовская Аравия",
+            "Швейцария", "Польша", "Тайвань", "Аргентина", "Швеция", "Бельгия", "Таиланд", "Иран", "Австрия", "Норвегия",
+            "ОАЭ", "Израиль", "Ирландия", "Сингапур", "Вьетнам", "Малайзия", "Филиппины", "Египет", "Чили", "Чехия",
+            "Румыния", "Португалия", "Греция", "Венгрия", "Украина", "Казахстан", "Алжир", "Ирак", "Перу", "ЮАР",
+            "Колумбия", "Новая Зеландия", "Бангладеш", "Пакистан", "Нигерия", "Эфиопия", "Кения", "Ангола", "Марокко",
+            "Эквадор", "Доминикана", "Гватемала", "Куба", "Беларусь", "Болгария", "Сербия", "Хорватия", "Словакия",
+            "Словения", "Литва", "Латвия", "Эстония", "Финляндия", "Дания", "Исландия", "Люксембург", "Монако",
+            "Лихтенштейн", "Андорра", "Мальта", "Кипр", "Бахрейн", "Катар", "Кувейт", "Оман", "Иордания", "Ливан",
+            "Сирия", "Йемен", "Афганистан", "Непал", "Шри-Ланка", "Мьянма", "Лаос", "Камбоджа", "Монголия", "КНДР",
+            "Узбекистан", "Туркменистан", "Кыргызстан", "Таджикистан", "Грузия", "Армения", "Азербайджан", "Молдова",
+            "Босния и Герцеговина", "Албания", "Северная Македония", "Черногория", "Косово", "Зимбабве", "Венесуэла",
+            "Судан", "Южный Судан", "Сомали", "Джибути", "Эритрея", "Мавритания", "Мали", "Буркина-Фасо", "Нигер",
+            "Чад", "ЦАР", "Камерун", "Габон", "Конго", "ДР Конго", "Руанда", "Бурунди", "Уганда", "Танзания",
+            "Мозамбик", "Мадагаскар", "Коморы", "Сейшелы", "Маврикий", "Ботсвана", "Намибия", "Замбия", "Малави",
+            "Лесото", "Эсватини", "Гвинея", "Гвинея-Бисау", "Сьерра-Леоне", "Либерия", "Кот-д'Ивуар", "Гана", "Того",
+            "Бенин", "Нигерия", "Сенегал", "Гамбия", "Кабо-Верде", "Сан-Томе и Принсипи", "Экваториальная Гвинея",
+            "Габон", "Бутан", "Мальдивы", "Вануату", "Соломоновы острова", "Папуа-Новая Гвинея", "Фиджи", "Самоа",
+            "Тонга", "Кирибати", "Микронезия", "Маршалловы острова", "Палау", "Науру", "Тувалу", "Ватикан"
+        ];
+
+        // Функция генерации данных для остальных стран
+        function generateCountryData(baseYear, countryName) {
+            const data = {};
+            const baseGDP = 0.05 + Math.random() * 0.2;
+            const baseGDPPerCapita = 1 + Math.random() * 5;
+            const baseUnemployment = 4 + Math.random() * 10;
+            const baseInflation = 2 + Math.random() * 8;
+            const baseDebt = 30 + Math.random() * 40;
+            const baseReserves = 1 + Math.random() * 10;
+
+            YEARS.forEach((year, index) => {
+                const growthFactor = 1 + (index * 0.02);
+                const recoveryFactor = year <= 2021 ? 0.95 : 1;
+                const covidEffect = year === 2020 ? 0.9 : 1;
+
+                data[year] = {
+                    gdp: baseGDP * growthFactor * covidEffect,
+                    gdpPerCapita: baseGDPPerCapita * (1 + index * 0.015) * covidEffect,
+                    unemployment: baseUnemployment * (year === 2020 ? 1.3 : 1) * (year >= 2022 ? 0.95 : 1),
+                    inflation: baseInflation * (year === 2022 ? 1.5 : 1) * (year >= 2023 ? 0.9 : 1),
+                    debt: baseDebt * (1 + index * 0.005) * (year >= 2022 ? 1.05 : 1),
+                    reserves: baseReserves * (1 + index * 0.03) * covidEffect
+                };
+            });
+            return data;
+        }
+
+        // Добавляем все страны в countriesData
+        allCountryNames.forEach(countryName => {
+            if (!countriesData.find(c => c.country === countryName)) {
+                countriesData.push({
+                    country: countryName,
+                    code: countryName.substring(0, 3).toUpperCase(),
+                    data: generateCountryData(2020, countryName)
+                });
+            }
+        });
+
+        // Проверка количества стран (должно быть 195)
+        console.log(`Всего стран в базе: ${countriesData.length}`);
+
+        // НОВЫЕ ПОРОГОВЫЕ ЗНАЧЕНИЯ
+        const thresholdValues = {
+            gdp: 0.5,              // минимум 0.5 трлн $
+            gdpPerCapita: 15.0,     // минимум $15,000 на человека
+            unemployment: 8.0,       // максимум 8% безработицы
+            inflation: 5.0,          // максимум 5% инфляции
+            debt: 70.0,              // максимум 70% госдолга к ВВП
+            reserves: 50.0           // минимум $50 млрд резервов
+        };
+
+        let charts = {};
+
+        // Функция для отображения ошибки
+        function showError(message, suggestions = []) {
+            const errorDiv = document.getElementById('error-message');
+            const errorText = document.getElementById('error-text');
+            const suggestionButtons = document.getElementById('suggestion-buttons');
+            
+            errorText.textContent = message;
+            
+            // Очищаем предыдущие подсказки
+            suggestionButtons.innerHTML = '';
+            
+            // Добавляем кнопки с предложениями
+            if (suggestions.length > 0) {
+                suggestions.forEach(country => {
+                    const btn = document.createElement('span');
+                    btn.className = 'suggestion-item';
+                    btn.textContent = country;
+                    btn.onclick = () => {
+                        document.getElementById('country-input').value = country;
+                        errorDiv.style.display = 'none';
+                        analyzeCountry();
+                    };
+                    suggestionButtons.appendChild(btn);
+                });
+            }
+            
+            errorDiv.style.display = 'block';
+            
+            // Скрываем результаты и загрузку
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('results-container').style.display = 'none';
+        }
+
+        // Поиск стран
+        const countryInput = document.getElementById('country-input');
+        const suggestionsDiv = document.getElementById('suggestions');
+
+        countryInput.addEventListener('input', function() {
+            const value = this.value.toLowerCase().trim();
+            if (value.length < 1) {
+                suggestionsDiv.style.display = 'none';
+                return;
+            }
+
+            const matches = countriesData.filter(c => 
+                c.country.toLowerCase().includes(value)
+            ).slice(0, 10);
+
+            if (matches.length > 0) {
+                suggestionsDiv.innerHTML = matches.map(c => 
+                    `<div class="suggestion-item" onclick="selectCountry('${c.country}')">${c.country}</div>`
+                ).join('');
+                suggestionsDiv.style.display = 'block';
+            } else {
+                suggestionsDiv.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!countryInput.contains(e.target) && !suggestionsDiv.contains(e.target)) {
+                suggestionsDiv.style.display = 'none';
+            }
+        });
+
+        function selectCountry(country) {
+            countryInput.value = country;
+            suggestionsDiv.style.display = 'none';
+        }
+
+        function getCrisisColor(minusCount) {
+            if (minusCount <= 1) return { bg: '#4caf50', text: 'НИЗКИЙ УРОВЕНЬ (0-1 минус)' };
+            if (minusCount == 2) return { bg: '#ffc107', text: 'СРЕДНИЙ УРОВЕНЬ (2 минуса)' };
+            if (minusCount == 3) return { bg: '#ff9800', text: 'ВЫСОКИЙ УРОВЕНЬ (3 минуса)' };
+            if (minusCount == 4) return { bg: '#f44336', text: 'КРИТИЧЕСКИЙ УРОВЕНЬ (4 минуса)' };
+            if (minusCount == 5) return { bg: '#8B4513', text: 'ГЛУБОКИЙ КРИЗИС (5 минусов)' };
+            return { bg: '#5D3A1A', text: 'КАТАСТРОФА (6 минусов)' };
+        }
+
+        function compareWithThreshold(countryYearData) {
+            const results = [];
+            let minusCount = 0;
+
+            const gdpResult = countryYearData.gdp >= thresholdValues.gdp ? '+' : '-';
+            if (gdpResult === '-') minusCount++;
+            results.push({ name: 'ВВП (трлн $)', value: countryYearData.gdp, threshold: thresholdValues.gdp, sign: gdpResult });
+
+            const gdpPerCapitaResult = countryYearData.gdpPerCapita >= thresholdValues.gdpPerCapita ? '+' : '-';
+            if (gdpPerCapitaResult === '-') minusCount++;
+            results.push({ name: 'ВВП на душу (тыс $)', value: countryYearData.gdpPerCapita, threshold: thresholdValues.gdpPerCapita, sign: gdpPerCapitaResult });
+
+            const unemploymentResult = countryYearData.unemployment <= thresholdValues.unemployment ? '+' : '-';
+            if (unemploymentResult === '-') minusCount++;
+            results.push({ name: 'Безработица (%)', value: countryYearData.unemployment, threshold: thresholdValues.unemployment, sign: unemploymentResult });
+
+            const inflationResult = countryYearData.inflation <= thresholdValues.inflation ? '+' : '-';
+            if (inflationResult === '-') minusCount++;
+            results.push({ name: 'Инфляция (%)', value: countryYearData.inflation, threshold: thresholdValues.inflation, sign: inflationResult });
+
+            const debtResult = countryYearData.debt <= thresholdValues.debt ? '+' : '-';
+            if (debtResult === '-') minusCount++;
+            results.push({ name: 'Госдолг (% ВВП)', value: countryYearData.debt, threshold: thresholdValues.debt, sign: debtResult });
+
+            const reservesResult = countryYearData.reserves >= thresholdValues.reserves ? '+' : '-';
+            if (reservesResult === '-') minusCount++;
+            results.push({ name: 'Резервы (млрд $)', value: countryYearData.reserves, threshold: thresholdValues.reserves, sign: reservesResult });
+
+            return { results, minusCount };
+        }
+
+        function destroyCharts() {
+            Object.values(charts).forEach(chart => {
+                if (chart) chart.destroy();
+            });
+            charts = {};
+        }
+
+        function createAllCharts(countryData, countryName, results) {
+            // Графики динамики
+            const chartConfig = {
+                type: 'line',
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { font: { size: 9 } }
+                        },
+                        x: {
+                            ticks: { 
+                                font: { size: 8 },
+                                maxRotation: 45,
+                                minRotation: 45
+                            }
+                        }
+                    }
+                }
+            };
+
+            charts.gdp = new Chart(document.getElementById('gdp-chart'), {
+                ...chartConfig,
+                data: {
+                    labels: YEARS,
+                    datasets: [
+                        { data: YEARS.map(y => countryData[y].gdp), borderColor: '#1a3a5e', backgroundColor: 'rgba(26,58,94,0.1)', tension: 0.4 },
+                        { data: YEARS.map(() => thresholdValues.gdp), borderColor: '#4caf50', borderDash: [5, 5], tension: 0.4 }
+                    ]
+                }
+            });
+
+            charts.gdpPerCapita = new Chart(document.getElementById('gdp-per-capita-chart'), {
+                ...chartConfig,
+                data: {
+                    labels: YEARS,
+                    datasets: [
+                        { data: YEARS.map(y => countryData[y].gdpPerCapita), borderColor: '#1a3a5e', backgroundColor: 'rgba(26,58,94,0.1)', tension: 0.4 },
+                        { data: YEARS.map(() => thresholdValues.gdpPerCapita), borderColor: '#4caf50', borderDash: [5, 5], tension: 0.4 }
+                    ]
+                }
+            });
+
+            charts.unemployment = new Chart(document.getElementById('unemployment-chart'), {
+                ...chartConfig,
+                data: {
+                    labels: YEARS,
+                    datasets: [
+                        { data: YEARS.map(y => countryData[y].unemployment), borderColor: '#1a3a5e', backgroundColor: 'rgba(26,58,94,0.1)', tension: 0.4 },
+                        { data: YEARS.map(() => thresholdValues.unemployment), borderColor: '#4caf50', borderDash: [5, 5], tension: 0.4 }
+                    ]
+                }
+            });
+
+            charts.inflation = new Chart(document.getElementById('inflation-chart'), {
+                ...chartConfig,
+                data: {
+                    labels: YEARS,
+                    datasets: [
+                        { data: YEARS.map(y => countryData[y].inflation), borderColor: '#1a3a5e', backgroundColor: 'rgba(26,58,94,0.1)', tension: 0.4 },
+                        { data: YEARS.map(() => thresholdValues.inflation), borderColor: '#4caf50', borderDash: [5, 5], tension: 0.4 }
+                    ]
+                }
+            });
+
+            charts.debt = new Chart(document.getElementById('debt-chart'), {
+                ...chartConfig,
+                data: {
+                    labels: YEARS,
+                    datasets: [
+                        { data: YEARS.map(y => countryData[y].debt), borderColor: '#1a3a5e', backgroundColor: 'rgba(26,58,94,0.1)', tension: 0.4 },
+                        { data: YEARS.map(() => thresholdValues.debt), borderColor: '#4caf50', borderDash: [5, 5], tension: 0.4 }
+                    ]
+                }
+            });
+
+            charts.reserves = new Chart(document.getElementById('reserves-chart'), {
+                ...chartConfig,
+                data: {
+                    labels: YEARS,
+                    datasets: [
+                        { data: YEARS.map(y => countryData[y].reserves), borderColor: '#1a3a5e', backgroundColor: 'rgba(26,58,94,0.1)', tension: 0.4 },
+                        { data: YEARS.map(() => thresholdValues.reserves), borderColor: '#4caf50', borderDash: [5, 5], tension: 0.4 }
+                    ]
+                }
+            });
+
+            // Отдельные графики сравнения для каждого показателя
+            const comparisonConfig = {
+                type: 'bar',
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { font: { size: 9 } }
+                        }
+                    }
+                }
+            };
+
+            charts.gdpComparison = new Chart(document.getElementById('gdp-comparison-chart'), {
+                ...comparisonConfig,
+                data: {
+                    labels: [countryName, 'Порог'],
+                    datasets: [{
+                        data: [results[0].value, results[0].threshold],
+                        backgroundColor: [results[0].sign === '+' ? '#4caf50' : '#f44336', '#1a3a5e'],
+                        borderRadius: 5
+                    }]
+                }
+            });
+
+            charts.gdpPerCapitaComparison = new Chart(document.getElementById('gdp-per-capita-comparison-chart'), {
+                ...comparisonConfig,
+                data: {
+                    labels: [countryName, 'Порог'],
+                    datasets: [{
+                        data: [results[1].value, results[1].threshold],
+                        backgroundColor: [results[1].sign === '+' ? '#4caf50' : '#f44336', '#1a3a5e'],
+                        borderRadius: 5
+                    }]
+                }
+            });
+
+            charts.unemploymentComparison = new Chart(document.getElementById('unemployment-comparison-chart'), {
+                ...comparisonConfig,
+                data: {
+                    labels: [countryName, 'Порог'],
+                    datasets: [{
+                        data: [results[2].value, results[2].threshold],
+                        backgroundColor: [results[2].sign === '+' ? '#4caf50' : '#f44336', '#1a3a5e'],
+                        borderRadius: 5
+                    }]
+                }
+            });
+
+            charts.inflationComparison = new Chart(document.getElementById('inflation-comparison-chart'), {
+                ...comparisonConfig,
+                data: {
+                    labels: [countryName, 'Порог'],
+                    datasets: [{
+                        data: [results[3].value, results[3].threshold],
+                        backgroundColor: [results[3].sign === '+' ? '#4caf50' : '#f44336', '#1a3a5e'],
+                        borderRadius: 5
+                    }]
+                }
+            });
+
+            charts.debtComparison = new Chart(document.getElementById('debt-comparison-chart'), {
+                ...comparisonConfig,
+                data: {
+                    labels: [countryName, 'Порог'],
+                    datasets: [{
+                        data: [results[4].value, results[4].threshold],
+                        backgroundColor: [results[4].sign === '+' ? '#4caf50' : '#f44336', '#1a3a5e'],
+                        borderRadius: 5
+                    }]
+                }
+            });
+
+            charts.reservesComparison = new Chart(document.getElementById('reserves-comparison-chart'), {
+                ...comparisonConfig,
+                data: {
+                    labels: [countryName, 'Порог'],
+                    datasets: [{
+                        data: [results[5].value, results[5].threshold],
+                        backgroundColor: [results[5].sign === '+' ? '#4caf50' : '#f44336', '#1a3a5e'],
+                        borderRadius: 5
+                    }]
+                }
+            });
+        }
+
+        function analyzeCountry() {
+            const countryName = document.getElementById('country-input').value.trim();
+            const year = parseInt(document.getElementById('year-select').value);
+
+            // Скрываем предыдущие ошибки
+            document.getElementById('error-message').style.display = 'none';
+
+            if (!countryName) {
+                showError('Пожалуйста, введите название страны');
+                return;
+            }
+
+            // Поиск точного совпадения
+            let country = countriesData.find(c => 
+                c.country.toLowerCase() === countryName.toLowerCase()
+            );
+
+            // Если точного совпадения нет, ищем частичное
+            if (!country) {
+                const possibleMatches = countriesData.filter(c => 
+                    c.country.toLowerCase().includes(countryName.toLowerCase())
+                );
+
+                if (possibleMatches.length === 1) {
+                    country = possibleMatches[0];
+                } else if (possibleMatches.length > 1) {
+                    const suggestions = possibleMatches.slice(0, 5).map(c => c.country);
+                    showError(`Страна "${countryName}" не найдена. Возможно, вы имели в виду:`, suggestions);
+                    return;
+                } else {
+                    // Если нет совпадений, показываем несколько случайных стран для примера
+                    const randomSuggestions = countriesData
+                        .sort(() => 0.5 - Math.random())
+                        .slice(0, 5)
+                        .map(c => c.country);
+                    showError(`Страна "${countryName}" не найдена. Попробуйте ввести другое название. Примеры стран:`, randomSuggestions);
+                    return;
+                }
+            }
+
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('results-container').style.display = 'none';
+
+            setTimeout(() => {
+                try {
+                    const countryYearData = country.data[year];
+                    
+                    if (!countryYearData) {
+                        showError(`Нет данных для ${country.country} за ${year} год`);
+                        return;
+                    }
+
+                    const { results, minusCount } = compareWithThreshold(countryYearData);
+                    const crisis = getCrisisColor(minusCount);
+
+                    document.getElementById('selected-country-name').textContent = `🌍 ${country.country}`;
+                    document.getElementById('selected-year').textContent = `Экономический анализ ${year} год`;
+
+                    document.getElementById('crisis-card').style.background = crisis.bg;
+                    document.getElementById('crisis-level').textContent = crisis.text;
+                    document.getElementById('minus-count').textContent = `Минусов: ${minusCount} из 6`;
+
+                    const metricsList = document.getElementById('metrics-list');
+                    metricsList.innerHTML = results.map((r, i) => {
+                        let signText = '';
+                        if (r.name.includes('ВВП') && !r.name.includes('душу')) signText = r.sign === '+' ? 'ВЫШЕ ПОРОГА' : `НИЖЕ ПОРОГА (${thresholdValues.gdp.toFixed(2)} трлн $)`;
+                        else if (r.name.includes('ВВП на душу')) signText = r.sign === '+' ? 'ВЫШЕ ПОРОГА' : `НИЖЕ ПОРОГА (${thresholdValues.gdpPerCapita.toFixed(2)} тыс $)`;
+                        else if (r.name.includes('Безработица')) signText = r.sign === '+' ? 'В ПРЕДЕЛАХ НОРМЫ' : `ПРЕВЫШЕНИЕ (> ${thresholdValues.unemployment.toFixed(2)}%)`;
+                        else if (r.name.includes('Инфляция')) signText = r.sign === '+' ? 'В ПРЕДЕЛАХ НОРМЫ' : `ПРЕВЫШЕНИЕ (> ${thresholdValues.inflation.toFixed(2)}%)`;
+                        else if (r.name.includes('Госдолг')) signText = r.sign === '+' ? 'В ПРЕДЕЛАХ НОРМЫ' : `ПРЕВЫШЕНИЕ (> ${thresholdValues.debt.toFixed(2)}%)`;
+                        else if (r.name.includes('Резервы')) signText = r.sign === '+' ? 'ДОСТАТОЧНО' : `НЕДОСТАТОЧНО (< ${thresholdValues.reserves.toFixed(2)} млрд $)`;
+                        
+                        return `
+                            <div class="metric-item">
+                                <div class="metric-header">
+                                    <span class="metric-name">${i+1}. ${r.name}</span>
+                                    <div class="metric-values">
+                                        <span class="metric-value" style="color: ${r.sign === '+' ? '#4caf50' : '#f44336'}">${r.value.toFixed(2)}</span>
+                                        <span class="metric-threshold">(порог: ${r.threshold.toFixed(2)})</span>
+                                        <span class="metric-sign ${r.sign === '+' ? 'positive' : 'negative'}">${r.sign}</span>
+                                    </div>
+                                </div>
+                                <div class="metric-description ${r.sign === '+' ? 'positive' : 'negative'}">
+                                    ${signText}
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+
+                    document.getElementById('threshold-info').innerHTML = `
+                        <h4>🎯 ПОРОГОВЫЕ ЗНАЧЕНИЯ ДЛЯ ОЦЕНКИ</h4>
+                        <p>• ВВП: минимум ${thresholdValues.gdp.toFixed(2)} трлн $</p>
+                        <p>• ВВП на душу: минимум ${thresholdValues.gdpPerCapita.toFixed(2)} тыс $</p>
+                        <p>• Безработица: максимум ${thresholdValues.unemployment.toFixed(2)}%</p>
+                        <p>• Инфляция: максимум ${thresholdValues.inflation.toFixed(2)}%</p>
+                        <p>• Госдолг: максимум ${thresholdValues.debt.toFixed(2)}% ВВП</p>
+                        <p>• Резервы: минимум ${thresholdValues.reserves.toFixed(2)} млрд $</p>
+                    `;
+
+                    destroyCharts();
+                    createAllCharts(country.data, country.country, results);
+
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('results-container').style.display = 'block';
+                    
+                } catch (error) {
+                    showError('Ошибка при анализе данных: ' + error.message);
+                }
+            }, 500);
+        }
+    </script>
+</body>
+</html>
